@@ -40,11 +40,12 @@ extern char* yytext;
 /* Grammer Rules */
 
 %%
-prog_start:			function_loop {printf("prog_start -> function_loop\n");}
+prog_start:			function_loop;
+
+function_loop:			/*epsilon*/ 
+				| function_loop FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS declaration_loop END_PARAMS BEGIN_LOCALS declaration_loop END_LOCALS BEGIN_BODY statement_loop END_BODY
 				;
-function_loop:			/*epsilon*/ {printf("function_loop -> epsilon\n");}
-				| function_loop FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS declaration_loop END_PARAMS BEGIN_LOCALS declaration_loop END_LOCALS BEGIN_BODY statement_loop END_BODY {printf("function_loop -> function_loop FUNCTION IDENTIFIER %s SEMICOLON BEGIN_PARAMS declaration_loop END_PARAMS BEGIN_LOCALS declaration_loop END_LOCALS BEGIN_BODY statement_loop END_BODY\n", $3);}
-				;
+				
 declaration_loop: 		/*epsilon*/ {printf("declaration_loop -> epsilon\n");}
 				| declaration_loop declaration SEMICOLON
 				{printf("declaration_loop -> declaration_loop declaration SEMICOLON\n");}
