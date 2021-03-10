@@ -59,7 +59,10 @@ declaration_loop: 		/*epsilon*/
 				;
 declaration:			identity_loop COLON array INTEGER
 				;
-identity_loop:			IDENTIFIER
+identity_loop:			IDENTIFIER {
+					stringstream ss;
+					ss << ". " << 
+					}
 				| identity_loop COMMA IDENTIFIER
 				;
 statement_loop:			statement SEMICOLON
@@ -85,7 +88,15 @@ if:				IF bool_expr THEN statement_loop else ENDIF {
 					string label0 = make_label();
 					string label1 = make_label();
 					stringstream ss;
-					ss <<
+					ss << $2.IR;
+					ss <<"?:=" << label0 << "," << #2.ret_name;
+					ss << std::endl;
+					ss << ":=" << label1 << std::endl;
+					ss<< ":" << label0 << std::endl;
+					ss << $4.IR;
+					ss << ": " << label1 << std::endl;
+					$$.IR = ss.str();
+					}
 				;
 else:				/*epsilon*/ 
 				| ELSE statement_loop
