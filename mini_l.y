@@ -1,16 +1,24 @@
-/* CS152 Project Phase 2 			  */
-/* Mini-l Bison Parser 				  */
+/* CS152 Project Phase 3 			  */
+/* Mini-l Bison Parser 	& Code Generator	  */
 /* Written by Johnny Vo and Dale Eman */
 
 /* C Declarations */
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <sstream>
 void yyerror(const char *msg);
 int yylex(void);
 extern int currLine;
 extern int currpos;
 extern char* yytext;
+struct Statement_IR{
+	std::string IR;
+	}
+struct Expression_IR{
+	std::string IR;
+	std::string ret_name;
+	}
 %}
 
 /* Bison Declarations */
@@ -73,7 +81,11 @@ statement:			assignment
 				;
 assignment:			var ASSIGN expression
 				;
-if:				IF bool_expr THEN statement_loop else ENDIF
+if:				IF bool_expr THEN statement_loop else ENDIF {
+					string label0 = make_label();
+					string label1 = make_label();
+					stringstream ss;
+					ss <<
 				;
 else:				/*epsilon*/ 
 				| ELSE statement_loop
