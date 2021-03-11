@@ -61,7 +61,8 @@ declaration:			identity_loop COLON array INTEGER
 				;
 identity_loop:			IDENTIFIER {
 					stringstream ss;
-					ss << ". " << 
+					ss << ". " << $1;
+					ss << std::endl;
 					}
 				| identity_loop COMMA IDENTIFIER
 				;
